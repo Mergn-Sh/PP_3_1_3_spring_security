@@ -63,7 +63,9 @@ public class AdminController {
 
     @PutMapping("/updateUser")
     public String updateUser(@ModelAttribute("user") User user){
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        if(!(userService.getUser(user.getId()).getPassword().equals(user.getPassword()))){
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        }
         userService.updateUser(user);
 
         return "redirect:/admin";
